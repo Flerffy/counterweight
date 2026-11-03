@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dx8xp6denqim5"]
+
+[ext_resource type="PackedScene" uid="uid://bbvf23gvf4fu2" path="res://Scenes/Player/player.tscn" id="1_srpdh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ln0w4"]
+size = Vector2(640, 32)
+
+[node name="TestRoom" type="Node2D" unique_id=12350813]
+
+[node name="Player" parent="." unique_id=1880216350 instance=ExtResource("1_srpdh")]
+position = Vector2(54, 180)
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=915549692]
+position = Vector2(320, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=456160268]
+shape = SubResource("RectangleShape2D_ln0w4")
+
+[node name="Polygon2D" type="Polygon2D" parent="Floor" unique_id=1768337986]
+polygon = PackedVector2Array(-320, -16, 320, -16, 320, 16, -320, 16)
