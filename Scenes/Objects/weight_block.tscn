@@ -6,6 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6cm1"]
 size = Vector2(32, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i3det"]
+size = Vector2(32, 4)
+
 [node name="WeightBlock" type="RigidBody2D" unique_id=844290429 groups=["carryable"]]
 collision_layer = 3
 lock_rotation = true
@@ -25,3 +28,11 @@ offset_top = -39.0
 offset_right = 34.0
 offset_bottom = -16.0
 script = ExtResource("2_i3det")
+
+[node name="StackDetector" type="Area2D" parent="." unique_id=1684788798]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StackDetector" unique_id=1972210903]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_i3det")
