@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cx5j2itcal5gk"]
+
+[ext_resource type="Script" uid="uid://cvkg0q1603nme" path="res://Scripts/Devices/weighted_door.gd" id="1_sy7xm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fgg6h"]
+size = Vector2(32, 64)
+
+[node name="WeightedDoor" type="StaticBody2D" unique_id=1021949925]
+script = ExtResource("1_sy7xm")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=472674274]
+color = Color(0.641934, 0.641934, 0.641934, 1)
+polygon = PackedVector2Array(-16, -32, 16, -32, 16, 32, -16, 32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1782903739]
+shape = SubResource("RectangleShape2D_fgg6h")

@@ -6,9 +6,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6cm1"]
 size = Vector2(32, 32)
 
-[node name="WeightBlock" type="RigidBody2D" unique_id=844290429]
+[node name="WeightBlock" type="RigidBody2D" unique_id=844290429 groups=["carryable"]]
 collision_layer = 3
-freeze = true
+lock_rotation = true
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=275431195]
 polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
