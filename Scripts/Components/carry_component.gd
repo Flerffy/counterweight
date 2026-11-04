@@ -93,8 +93,14 @@ func _attempt_pickup() -> void:
         if weight == null:
             continue
 
+        print(
+            "Pickup check: ", body.name,
+            " weight=", weight.current_weight,
+            " capacity=", max_carry_weight
+        )
+
         # Objects exceeding carrying capacity cannot be picked up.
-        if weight.current_weight > max_carry_weight:
+        if weight.current_weight > max_carry_weight: 
             continue
 
         var distance: float = player.global_position.distance_squared_to(

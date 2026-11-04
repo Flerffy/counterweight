@@ -100,16 +100,14 @@ func _on_body_exited(body: Node2D) -> void:
 func _on_weight_changed(_old_weight: int, _new_weight: int) -> void:
     _recalculate_weight()
 
-
-## Recalculates the combined weight and updates activation.
+## Recalculates the combined weight, including supported stacks.
 func _recalculate_weight() -> void:
     var total_weight: int = 0
+    var counted: Dictionary = {}
 
     for body: Node2D in tracked_bodies:
-        var component: WeightComponent = tracked_bodies[body]
-
-        if is_instance_valid(component):
-            total_weight += component.current_weight
+        if is_instance_valid(body):
+            total_weight += _get_stack_weight(body, counted)
 
     var should_activate: bool = total_weight >= required_weight
 
@@ -123,6 +121,82 @@ func _recalculate_weight() -> void:
     activation_changed.emit(is_active)
 
     print("Pressure Plate Active: ", is_active)
+
+
+# -----------------------------------------------------------------------------
+# STACKED WEIGHT
+# -----------------------------------------------------------------------------
+
+
+
+## Returns the combined weight of a body, its carried objects,
+## and any weighted bodies supported above it.
+func _get_stack_weight(body: Node2D, counted: Dictionary) -> int:
+    if not is_instance_valid(body) or counted.has(body):
+        return 0
+
+    var component: WeightComponent = body.get_node_or_null(
+        "WeightComponent"
+    ) as WeightComponent
+
+    if component == null:
+        return 0
+
+    counted[body] = true
+
+    var total_weight: int = component.current_weight
+
+    # -------------------------------------------------------------------------
+    # CARRIED WEIGHT
+    # -------------------------------------------------------------------------
+
+    # A carried block contributes to the player's applied weight.
+    # Its own WeightComponent remains unchanged.
+    var carry_component: CarryComponent = body.get_node_or_null(
+        "CarryComponent"
+    ) as CarryComponent
+
+    if carry_component != null:
+        var carried_body: RigidBody2D = carry_component.carried_body
+
+        if is_instance_valid(carried_body) and not counted.has(carried_body):
+            var carried_weight: WeightComponent = carried_body.get_node_or_null(
+                "WeightComponent"
+            ) as WeightComponent
+
+            if carried_weight != null:
+                counted[carried_body] = true
+                total_weight += carried_weight.current_weight
+
+    # -------------------------------------------------------------------------
+    # STACKED WEIGHT
+    # -------------------------------------------------------------------------
+
+    var detector: Area2D = body.get_node_or_null(
+        "StackDetector"
+    ) as Area2D
+
+    if detector == null:
+        return total_weight
+
+    for upper_body: Node2D in detector.get_overlapping_bodies():
+        if upper_body.global_position.y >= body.global_position.y:
+            continue
+
+        total_weight += _get_stack_weight(upper_body, counted)
+
+    return total_weight
+
+
+# -----------------------------------------------------------------------------
+# PHYSICS UPDATES
+# -----------------------------------------------------------------------------
+
+## Detects changes to stacks without requiring every block
+## to maintain direct connections to the pressure plate.
+func _physics_process(_delta: float) -> void:
+    if not tracked_bodies.is_empty():
+        _recalculate_weight()
 
 
 # -----------------------------------------------------------------------------
