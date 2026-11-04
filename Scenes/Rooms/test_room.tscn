@@ -1,20 +1,14 @@
-[gd_scene format=3 uid="uid://dx8xp6denqim5"]
+[gd_scene format=4 uid="uid://dx8xp6denqim5"]
 
 [ext_resource type="PackedScene" uid="uid://bbvf23gvf4fu2" path="res://Scenes/Player/player.tscn" id="1_srpdh"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ln0w4"]
-size = Vector2(640, 32)
+[ext_resource type="TileSet" uid="uid://bm4cl6ff74w4s" path="res://Assets/Tilesets/pa-tileset.tres" id="2_ln0w4"]
 
 [node name="TestRoom" type="Node2D" unique_id=12350813]
 
 [node name="Player" parent="." unique_id=1880216350 instance=ExtResource("1_srpdh")]
 position = Vector2(54, 180)
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=915549692]
-position = Vector2(320, 320)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=456160268]
-shape = SubResource("RectangleShape2D_ln0w4")
-
-[node name="Polygon2D" type="Polygon2D" parent="Floor" unique_id=1768337986]
-polygon = PackedVector2Array(-320, -16, 320, -16, 320, 16, -320, 16)
+[node name="Terrain" type="TileMapLayer" parent="." unique_id=7204215]
+position = Vector2(320, 305)
+tile_map_data = PackedByteArray("AAD2/wAAAAAAAAAAAAD3/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD+/wAAAAAAAAAAAAD//wAAAAAAAAAAAAAHAP3/AAAAAAAAAAAIAP3/AAAAAAAAAAAJAP3/AAAAAAAAAAAEAAAAAAAAAAAAAAAFAP//AAAAAAAAAAAFAAAAAAAAAAAAAAAGAP7/AAAAAAAAAAAGAP//AAAAAAAAAAAGAAAAAAAAAAAAAAAHAP7/AAAAAAAAAAAHAP//AAAAAAAAAAAHAAAAAAAAAAAAAAAIAP7/AAAAAAAAAAAIAP//AAAAAAAAAAAIAAAAAAAAAAAAAAAJAP7/AAAAAAAAAAAJAP//AAAAAAAAAAAJAAAAAAAAAAAAAAD2////AAAAAAAAAAD2//7/AAAAAAAAAAD2//3/AAAAAAAAAAD2//z/AAAAAAAAAAD2//v/AAAAAAAAAAD2//r/AAAAAAAAAAD3////AAAAAAAAAAD4////AAAAAAAAAAD5////AAAAAAAAAAADAPv/AAAAAAAAAAAEAPv/AAAAAAAAAAAFAPv/AAAAAAAAAAD5//r/AAAAAAAAAAD6//r/AAAAAAAAAAD7//r/AAAAAAAAAAD///r/AAAAAAAAAAAAAPr/AAAAAAAAAAABAPr/AAAAAAAAAAA=")
+tile_set = ExtResource("2_ln0w4")

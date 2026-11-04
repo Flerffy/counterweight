@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dntkgsljb2ce8" path="res://Assets/Sprites/pa-player.png" id="1_uvnfx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tugb3"]
-size = Vector2(24, 56)
+size = Vector2(30, 63)
 
 [node name="Player" type="CharacterBody2D" unique_id=1880216350]
 script = ExtResource("1_a3d8c")
@@ -14,5 +14,5 @@ position = Vector2(0, -32)
 texture = ExtResource("1_uvnfx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347645885]
-position = Vector2(0, -28)
+position = Vector2(0, -31.5)
 shape = SubResource("RectangleShape2D_tugb3")
