@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://bm4cl6ff74w4s" path="res://Assets/Tilesets/pa-tileset.tres" id="2_ln0w4"]
 [ext_resource type="PackedScene" uid="uid://b0ac51tn0vb2k" path="res://Scenes/Objects/weight_block.tscn" id="3_8k5sq"]
 [ext_resource type="Script" uid="uid://bflvnycpr1oyi" path="res://Scripts/Systems/balance_controller.gd" id="5_c42wt"]
+[ext_resource type="PackedScene" uid="uid://ljlbaemway0v" path="res://Scenes/Devices/pressure_plate.tscn" id="6_wrd0h"]
 
 [node name="TestRoom" type="Node2D" unique_id=12350813]
 script = ExtResource("1_c42wt")
@@ -31,3 +32,6 @@ freeze = false
 [node name="WeightBlock3" parent="." unique_id=1494540761 instance=ExtResource("3_8k5sq")]
 position = Vector2(269, 282)
 freeze = false
+
+[node name="PressurePlate" parent="." unique_id=661396415 instance=ExtResource("6_wrd0h")]
+position = Vector2(220, 305)
