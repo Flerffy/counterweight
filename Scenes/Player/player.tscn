@@ -2,9 +2,15 @@
 
 [ext_resource type="Script" uid="uid://b2p3gkah7po6i" path="res://Scripts/Player/player.gd" id="1_a3d8c"]
 [ext_resource type="Texture2D" uid="uid://dntkgsljb2ce8" path="res://Assets/Sprites/pa-player.png" id="1_uvnfx"]
+[ext_resource type="Script" uid="uid://c5w557baxulwk" path="res://Scripts/Components/weight_component.gd" id="3_xpcdj"]
+[ext_resource type="Script" uid="uid://bwhyigtrwo52s" path="res://Scripts/Player/contact_detector.gd" id="4_mtuoh"]
+[ext_resource type="Script" uid="uid://cqh3t72gadlml" path="res://Scripts/Player/player_interaction.gd" id="5_htcer"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tugb3"]
 size = Vector2(30, 63)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xpcdj"]
+size = Vector2(34, 66)
 
 [node name="Player" type="CharacterBody2D" unique_id=1880216350]
 script = ExtResource("1_a3d8c")
@@ -16,3 +22,18 @@ texture = ExtResource("1_uvnfx")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1347645885]
 position = Vector2(0, -31.5)
 shape = SubResource("RectangleShape2D_tugb3")
+
+[node name="WeightComponent" type="Node" parent="." unique_id=353647923]
+script = ExtResource("3_xpcdj")
+
+[node name="ContactDetector" type="Area2D" parent="." unique_id=1535036577]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("4_mtuoh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ContactDetector" unique_id=205821512]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_xpcdj")
+
+[node name="PlayerInteraction" type="Node" parent="." unique_id=137429512]
+script = ExtResource("5_htcer")

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b0ac51tn0vb2k"]
+
+[ext_resource type="Script" uid="uid://c5w557baxulwk" path="res://Scripts/Components/weight_component.gd" id="1_vsbsa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y6cm1"]
+size = Vector2(32, 32)
+
+[node name="WeightBlock" type="RigidBody2D" unique_id=844290429]
+collision_layer = 3
+freeze = true
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=275431195]
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1467952692]
+shape = SubResource("RectangleShape2D_y6cm1")
+
+[node name="WeightComponent" type="Node" parent="." unique_id=1111604921]
+script = ExtResource("1_vsbsa")
