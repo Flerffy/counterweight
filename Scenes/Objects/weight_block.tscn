@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b0ac51tn0vb2k"]
 
 [ext_resource type="Script" uid="uid://c5w557baxulwk" path="res://Scripts/Components/weight_component.gd" id="1_vsbsa"]
+[ext_resource type="Script" uid="uid://xrj2dfwd0yc3" path="res://Scripts/Components/weight_indicator.gd" id="2_i3det"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6cm1"]
 size = Vector2(32, 32)
@@ -17,3 +18,10 @@ shape = SubResource("RectangleShape2D_y6cm1")
 
 [node name="WeightComponent" type="Node" parent="." unique_id=1111604921]
 script = ExtResource("1_vsbsa")
+
+[node name="WeightIndicator" type="Label" parent="." unique_id=2050129945]
+offset_left = -6.0
+offset_top = -39.0
+offset_right = 34.0
+offset_bottom = -16.0
+script = ExtResource("2_i3det")
