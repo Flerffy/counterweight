@@ -11,9 +11,15 @@ config_version=5
 [application]
 
 config/name="counterweight"
-run/main_scene="uid://dx8xp6denqim5"
+run/main_scene="res://Scenes/Levels/level_01.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=576
+window/stretch/mode="canvas_items"
 
 [global_group]
 
