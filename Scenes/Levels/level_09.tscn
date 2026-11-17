@@ -1,0 +1,126 @@
+[gd_scene load_steps=13 format=4]
+
+[ext_resource type="Script" path="res://Scripts/Levels/level_room.gd" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Player/player.tscn" id="2"]
+[ext_resource type="TileSet" path="res://Assets/Tilesets/pa-tileset.tres" id="3"]
+[ext_resource type="PackedScene" path="res://Scenes/Objects/weight_block.tscn" id="4"]
+[ext_resource type="Script" path="res://Scripts/Systems/balance_controller.gd" id="5"]
+[ext_resource type="PackedScene" path="res://Scenes/Devices/puzzle_button.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://Scenes/Devices/tall_weighted_door.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://Scenes/Devices/level_exit.tscn" id="8"]
+[ext_resource type="Script" path="res://Scripts/Levels/level_hazard.gd" id="9"]
+[ext_resource type="Script" path="res://Scripts/Levels/sequence_controller.gd" id="10"]
+[ext_resource type="Script" path="res://Scripts/Levels/level_camera.gd" id="11"]
+
+[sub_resource type="RectangleShape2D" id="void"]
+size = Vector2(1024, 64)
+
+[node name="Level09" type="Node2D"]
+script = ExtResource("1")
+level_number = 9
+level_title = "Remember the Order"
+hint = "Watch four buttons flash in sequence, then step on them in order. Move off between presses."
+next_scene = "res://Scenes/Levels/level_10.tscn"
+
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(80, 480)
+light_jump_speed = 460.0
+normal_jump_speed = 380.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(80, 240)
+script = ExtResource("11")
+limit_left = 0
+limit_right = 1024
+limit_top = 0
+limit_bottom = 576
+
+[node name="Terrain" type="TileMapLayer" parent="."]
+position = Vector2(16, 16)
+tile_map_data = PackedByteArray("AAAAAA8AAAAAAAAAAAAAABAAAAAAAAAAAAAAABEAAAAAAAAAAAABAA8AAAAAAAAAAAABABAAAAAAAAAAAAABABEAAAAAAAAAAAACAA8AAAAAAAAAAAACABAAAAAAAAAAAAACABEAAAAAAAAAAAADAA8AAAAAAAAAAAADABAAAAAAAAAAAAADABEAAAAAAAAAAAAEAA8AAAAAAAAAAAAEABAAAAAAAAAAAAAEABEAAAAAAAAAAAAFAA8AAAAAAAAAAAAFABAAAAAAAAAAAAAFABEAAAAAAAAAAAAGAA8AAAAAAAAAAAAGABAAAAAAAAAAAAAGABEAAAAAAAAAAAAHAA8AAAAAAAAAAAAHABAAAAAAAAAAAAAHABEAAAAAAAAAAAAIAA8AAAAAAAAAAAAIABAAAAAAAAAAAAAIABEAAAAAAAAAAAAJAA8AAAAAAAAAAAAJABAAAAAAAAAAAAAJABEAAAAAAAAAAAAKAA8AAAAAAAAAAAAKABAAAAAAAAAAAAAKABEAAAAAAAAAAAALAA8AAAAAAAAAAAALABAAAAAAAAAAAAALABEAAAAAAAAAAAAMAA8AAAAAAAAAAAAMABAAAAAAAAAAAAAMABEAAAAAAAAAAAANAA8AAAAAAAAAAAANABAAAAAAAAAAAAANABEAAAAAAAAAAAAOAA8AAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAPAA8AAAAAAAAAAAAPABAAAAAAAAAAAAAPABEAAAAAAAAAAAAQAA8AAAAAAAAAAAAQABAAAAAAAAAAAAAQABEAAAAAAAAAAAARAA8AAAAAAAAAAAARABAAAAAAAAAAAAARABEAAAAAAAAAAAASAA8AAAAAAAAAAAASABAAAAAAAAAAAAASABEAAAAAAAAAAAATAA8AAAAAAAAAAAATABAAAAAAAAAAAAATABEAAAAAAAAAAAAUAA8AAAAAAAAAAAAUABAAAAAAAAAAAAAUABEAAAAAAAAAAAAVAA8AAAAAAAAAAAAVABAAAAAAAAAAAAAVABEAAAAAAAAAAAAWAA8AAAAAAAAAAAAWABAAAAAAAAAAAAAWABEAAAAAAAAAAAAXAA8AAAAAAAAAAAAXABAAAAAAAAAAAAAXABEAAAAAAAAAAAAYAA8AAAAAAAAAAAAYABAAAAAAAAAAAAAYABEAAAAAAAAAAAAZAA8AAAAAAAAAAAAZABAAAAAAAAAAAAAZABEAAAAAAAAAAAAaAA8AAAAAAAAAAAAaABAAAAAAAAAAAAAaABEAAAAAAAAAAAAbAAgAAAAAAAAAAAAbAAkAAAAAAAAAAAAbAA8AAAAAAAAAAAAbABAAAAAAAAAAAAAbABEAAAAAAAAAAAAcAA8AAAAAAAAAAAAcABAAAAAAAAAAAAAcABEAAAAAAAAAAAAdAA8AAAAAAAAAAAAdABAAAAAAAAAAAAAdABEAAAAAAAAAAAAeAA8AAAAAAAAAAAAeABAAAAAAAAAAAAAeABEAAAAAAAAAAAAfAA8AAAAAAAAAAAAfABAAAAAAAAAAAAAfABEAAAAAAAAAAAA=")
+tile_set = ExtResource("3")
+
+[node name="BalanceController" type="Node" parent="."]
+script = ExtResource("5")
+
+[node name="MemoryA" parent="." groups=["memory_09"] instance=ExtResource("6")]
+position = Vector2(176, 480)
+mode = 2
+required_weight = 1
+
+[node name="MemoryB" parent="." groups=["memory_09"] instance=ExtResource("6")]
+position = Vector2(368, 480)
+mode = 2
+required_weight = 1
+
+[node name="MemoryC" parent="." groups=["memory_09"] instance=ExtResource("6")]
+position = Vector2(560, 480)
+mode = 2
+required_weight = 1
+
+[node name="MemoryD" parent="." groups=["memory_09"] instance=ExtResource("6")]
+position = Vector2(752, 480)
+mode = 2
+required_weight = 1
+
+[node name="DoorA" parent="." instance=ExtResource("7")]
+position = Vector2(880, 416)
+
+[node name="Sequence" type="Node2D" parent="."]
+position = Vector2(160, 290)
+script = ExtResource("10")
+button_group = &"memory_09"
+
+[node name="StatusLabel" type="Label" parent="Sequence"]
+offset_left = 0.0
+offset_top = -22.0
+offset_right = 570.0
+offset_bottom = 5.0
+theme_override_font_sizes/font_size = 19
+text = "WATCH THE BUTTONS"
+
+[node name="VoidReset" type="Area2D" parent="."]
+position = Vector2(512, 620)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("9")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VoidReset"]
+shape = SubResource("void")
+
+[node name="Exit" parent="." instance=ExtResource("8")]
+position = Vector2(976, 448)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="Header" type="Panel" parent="HUD"]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 940.0
+offset_bottom = 103.0
+
+[node name="LevelTitle" type="Label" parent="HUD/Header"]
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 910.0
+offset_bottom = 34.0
+theme_override_font_sizes/font_size = 20
+
+[node name="Hint" type="Label" parent="HUD/Header"]
+offset_left = 12.0
+offset_top = 34.0
+offset_right = 910.0
+offset_bottom = 80.0
+autowrap_mode = 2
+theme_override_font_sizes/font_size = 13
+
+[node name="Controls" type="Label" parent="HUD"]
+offset_left = 14.0
+offset_top = 542.0
+offset_right = 940.0
+offset_bottom = 568.0
+text = "A / D Move   ·   SPACE Jump   ·   Q Give   ·   E Take   ·   F Carry / Drop   ·   R Reset"
+theme_override_font_sizes/font_size = 13
+
+[connection signal="state_changed" from="Sequence" to="DoorA" method="set_open"]
