@@ -27,6 +27,7 @@ class_name CarryComponent
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 @export_range(1, 3) var max_carry_weight: int = 2 ## Maximum weight the player can carry.
+@export var debug_logging: bool = false ## Enable pickup/drop diagnostics in the Output panel.
 
 @export var drop_horizontal_offset: float = 34.0 ## Distance to drop beside the player.
 @export var drop_vertical_offset: float = -17.0 ## Vertical offset from the player's feet.
@@ -93,11 +94,9 @@ func _attempt_pickup() -> void:
         if weight == null:
             continue
 
-        print(
-            "Pickup check: ", body.name,
-            " weight=", weight.current_weight,
-            " capacity=", max_carry_weight
-        )
+        if debug_logging:
+            print("Pickup check: ", body.name, " weight=", weight.current_weight,
+                " capacity=", max_carry_weight)
 
         # Objects exceeding carrying capacity cannot be picked up.
         if weight.current_weight > max_carry_weight: 
@@ -112,7 +111,8 @@ func _attempt_pickup() -> void:
             nearest_body = body as RigidBody2D
 
     if nearest_body == null:
-        print("No eligible object within carrying capacity.")
+        if debug_logging:
+            print("No eligible object within carrying capacity.")
         return
 
     carried_body = nearest_body
@@ -130,7 +130,8 @@ func _attempt_pickup() -> void:
 
     carried_body.global_position = carry_point.global_position
 
-    print("Picked up: ", carried_body.name)
+    if debug_logging:
+        print("Picked up: ", carried_body.name)
 
 
 # -----------------------------------------------------------------------------
@@ -171,7 +172,8 @@ func _attempt_drop() -> void:
     )
 
     if not collisions.is_empty():
-        print("Cannot drop: space is occupied.")
+        if debug_logging:
+            print("Cannot drop: space is occupied.")
         return
 
     # Restore the physics body to the world.
@@ -181,6 +183,7 @@ func _attempt_drop() -> void:
     carried_body.freeze = false
     carried_body.sleeping = false
 
-    print("Dropped: ", carried_body.name)
+    if debug_logging:
+        print("Dropped: ", carried_body.name)
 
     carried_body = null

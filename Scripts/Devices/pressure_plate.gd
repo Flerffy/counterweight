@@ -31,6 +31,7 @@ signal activation_changed(active: bool)
 # CONFIGURATION
 # -----------------------------------------------------------------------------
 @export_range(1, 12) var required_weight: int = 3 ## Minimum combined weight needed to activate.
+@export var debug_logging: bool = false ## Enable plate activation messages in the Output panel.
 
 @export var inactive_color: Color = Color.RED ## Color when inactive.
 @export var active_color: Color = Color.GREEN ## Color when activated.
@@ -54,6 +55,7 @@ var is_active: bool = false
 
 # Associates each detected physics body with its WeightComponent.
 var tracked_bodies: Dictionary = {}
+var _needs_stack_poll: bool = false
 
 
 # -----------------------------------------------------------------------------
@@ -82,6 +84,7 @@ func _on_body_entered(body: Node2D) -> void:
     # Listen for transfers while the body remains on the plate.
     component.weight_changed.connect(_on_weight_changed)
 
+    _refresh_polling_requirement()
     _recalculate_weight()
 
 
@@ -96,6 +99,7 @@ func _on_body_exited(body: Node2D) -> void:
         if component.weight_changed.is_connected(_on_weight_changed):
             component.weight_changed.disconnect(_on_weight_changed)
 
+    _refresh_polling_requirement()
     _recalculate_weight()
 
 
@@ -125,7 +129,8 @@ func _recalculate_weight() -> void:
     _update_visual()
     activation_changed.emit(is_active)
 
-    print("Pressure Plate Active: ", is_active)
+    if debug_logging:
+        print("Pressure Plate Active: ", is_active)
 
 
 # -----------------------------------------------------------------------------
@@ -197,11 +202,21 @@ func _get_stack_weight(body: Node2D, counted: Dictionary) -> int:
 # PHYSICS UPDATES
 # -----------------------------------------------------------------------------
 
-## Detects changes to stacks without requiring every block
-## to maintain direct connections to the pressure plate.
+## Poll only when a directly supported body has dynamic stacked/carried mass.
+## Otherwise body_entered, body_exited and weight_changed already cover changes.
 func _physics_process(_delta: float) -> void:
-    if not tracked_bodies.is_empty():
+    if _needs_stack_poll:
         _recalculate_weight()
+
+
+func _refresh_polling_requirement() -> void:
+    _needs_stack_poll = false
+    for body: Node2D in tracked_bodies:
+        if not is_instance_valid(body):
+            continue
+        if body.has_node("StackDetector") or body.has_node("CarryComponent"):
+            _needs_stack_poll = true
+            return
 
 
 # -----------------------------------------------------------------------------

@@ -33,7 +33,10 @@ func can_play(number: int) -> bool:
     return number >= 1 and number <= highest_unlocked
 
 func enter_level(number: int) -> void:
-    current_level = clampi(number, 1, MAX_LEVEL)
+    var next_level: int = clampi(number, 1, MAX_LEVEL)
+    if current_level == next_level:
+        return
+    current_level = next_level
     save_progress()
 
 ## Unlock the next level only when the player reaches the current room's exit.
