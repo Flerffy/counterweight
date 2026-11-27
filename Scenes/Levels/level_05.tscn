@@ -1,8 +1,8 @@
-[gd_scene load_steps=18 format=4]
+[gd_scene load_steps=20 format=4]
 
 [ext_resource type="Script" path="res://Scripts/Levels/level_room.gd" id="1"]
 [ext_resource type="PackedScene" path="res://Scenes/Player/player.tscn" id="2"]
-[ext_resource type="TileSet" path="res://Assets/Tilesets/pa-tileset.tres" id="3"]
+[ext_resource type="Script" path="res://Scripts/Levels/terrain_section.gd" id="terrain_script"]
 [ext_resource type="PackedScene" path="res://Scenes/Objects/weight_block.tscn" id="4"]
 [ext_resource type="Script" path="res://Scripts/Systems/balance_controller.gd" id="5"]
 [ext_resource type="PackedScene" path="res://Scenes/Devices/puzzle_button.tscn" id="6"]
@@ -11,7 +11,7 @@
 [ext_resource type="Script" path="res://Scripts/Levels/level_hazard.gd" id="9"]
 [ext_resource type="Script" path="res://Scripts/Levels/sequence_controller.gd" id="10"]
 [ext_resource type="Script" path="res://Scripts/Levels/level_camera.gd" id="11"]
-[ext_resource type="Script" path="res://Scripts/Levels/level_backdrop.gd" id="backdrop"]
+[ext_resource type="Texture2D" path="res://Assets/Art/BG.png" id="bg_texture"]
 [ext_resource type="SpriteFrames" path="res://Assets/Art/Hazards/ElectricFloorFrames.tres" id="electric"]
 [ext_resource type="Script" path="res://Scripts/UI/game_hud.gd" id="hud_script"]
 [ext_resource type="Texture2D" path="res://Assets/Art/PlatformGrey.tres" id="platform_trim"]
@@ -22,6 +22,12 @@ size = Vector2(32, 22)
 [sub_resource type="RectangleShape2D" id="2"]
 size = Vector2(1024, 64)
 
+[sub_resource type="RectangleShape2D" id="terrain_rect_01"]
+size = Vector2(384, 32)
+
+[sub_resource type="RectangleShape2D" id="terrain_rect_02"]
+size = Vector2(672, 96)
+
 [node name="Level05" type="Node2D"]
 script = ExtResource("1")
 level_number = 5
@@ -29,11 +35,16 @@ level_title = "The Ascent"
 hint = "Carry and stack blocks to reach the upper ledge. Transfer weight for the jump over spikes."
 next_scene = "res://Scenes/Levels/level_06.tscn"
 
-[node name="Backdrop" type="Node2D" parent="."]
+[node name="Backdrop" type="Parallax2D" parent="."]
 z_index = -20
+scroll_scale = Vector2(0.15, 0.05)
+repeat_size = Vector2(0, 0)
+
+[node name="BackgroundArt" type="Sprite2D" parent="Backdrop"]
+position = Vector2(480, 288)
+scale = Vector2(8, 8)
+texture = ExtResource("bg_texture")
 texture_filter = 1
-script = ExtResource("backdrop")
-room_width = 1024
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(80, 480)
@@ -48,10 +59,29 @@ limit_right = 1024
 limit_top = 0
 limit_bottom = 576
 
-[node name="Terrain" type="TileMapLayer" parent="."]
-position = Vector2(16, 16)
-tile_map_data = PackedByteArray("AAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAARAAAAAAAAAAAAAQAPAAAAAAAAAAAAAQAQAAAAAAAAAAAAAQARAAAAAAAAAAAAAgAPAAAAAAAAAAAAAgAQAAAAAAAAAAAAAgARAAAAAAAAAAAAAwAPAAAAAAAAAAAAAwAQAAAAAAAAAAAAAwARAAAAAAAAAAAABAAPAAAAAAAAAAAABAAQAAAAAAAAAAAABAARAAAAAAAAAAAABQAPAAAAAAAAAAAABQAQAAAAAAAAAAAABQARAAAAAAAAAAAABgAPAAAAAAAAAAAABgAQAAAAAAAAAAAABgARAAAAAAAAAAAABwAPAAAAAAAAAAAABwAQAAAAAAAAAAAABwARAAAAAAAAAAAACAAPAAAAAAAAAAAACAAQAAAAAAAAAAAACAARAAAAAAAAAAAACQAPAAAAAAAAAAAACQAQAAAAAAAAAAAACQARAAAAAAAAAAAACgAPAAAAAAAAAAAACgAQAAAAAAAAAAAACgARAAAAAAAAAAAACwAPAAAAAAAAAAAACwAQAAAAAAAAAAAACwARAAAAAAAAAAAADAAPAAAAAAAAAAAADAAQAAAAAAAAAAAADAARAAAAAAAAAAAADQAPAAAAAAAAAAAADQAQAAAAAAAAAAAADQARAAAAAAAAAAAADgAPAAAAAAAAAAAADgAQAAAAAAAAAAAADgARAAAAAAAAAAAADwAPAAAAAAAAAAAADwAQAAAAAAAAAAAADwARAAAAAAAAAAAAEAAPAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAARAAAAAAAAAAAAEQAPAAAAAAAAAAAAEQAQAAAAAAAAAAAAEQARAAAAAAAAAAAAEgAPAAAAAAAAAAAAEgAQAAAAAAAAAAAAEgARAAAAAAAAAAAAEwAPAAAAAAAAAAAAEwAQAAAAAAAAAAAAEwARAAAAAAAAAAAAFAAKAAAAAAAAAAAAFAAPAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAARAAAAAAAAAAAAFQAKAAAAAAAAAAAAFgAKAAAAAAAAAAAAFwAKAAAAAAAAAAAAGAAKAAAAAAAAAAAAGQAKAAAAAAAAAAAAGgAKAAAAAAAAAAAAGwAKAAAAAAAAAAAAHAAKAAAAAAAAAAAAHQAKAAAAAAAAAAAAHgAKAAAAAAAAAAAAHwAKAAAAAAAAAAAAAAA=")
-tile_set = ExtResource("3")
+[node name="Terrain" type="Node2D" parent="."]
+
+[node name="TerrainSection01" type="StaticBody2D" parent="Terrain"]
+position = Vector2(832, 336)
+collision_layer = 1
+texture_filter = 1
+script = ExtResource("terrain_script")
+columns = 12
+rows = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/TerrainSection01"]
+shape = SubResource("terrain_rect_01")
+
+[node name="TerrainSection02" type="StaticBody2D" parent="Terrain"]
+position = Vector2(336, 528)
+collision_layer = 1
+texture_filter = 1
+script = ExtResource("terrain_script")
+columns = 21
+rows = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/TerrainSection02"]
+shape = SubResource("terrain_rect_02")
 
 [node name="BalanceController" type="Node" parent="."]
 script = ExtResource("5")

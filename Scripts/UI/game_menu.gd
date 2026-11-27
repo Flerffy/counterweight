@@ -39,9 +39,12 @@ func _ready() -> void:
 
 func _draw() -> void:
     if not pause_overlay:
-        for y: int in range(0, int(size.y), 96):
-            for x: int in range(0, int(size.x), 256):
-                draw_texture(BG, Vector2(x, y))
+        # A single background image, proportionally scaled to cover the menu.
+        var bg_size: Vector2 = BG.get_size()
+        var cover_scale: float = maxf(size.x / bg_size.x, size.y / bg_size.y)
+        var scaled_size: Vector2 = bg_size * cover_scale
+        var bg_position: Vector2 = (size - scaled_size) / 2.0
+        draw_texture_rect(BG, Rect2(bg_position, scaled_size), false)
     draw_rect(Rect2(Vector2.ZERO, size), Color(0.04, 0.035, 0.05, 0.73 if pause_overlay else 0.54))
     draw_rect(Rect2(0, 0, size.x, 5), ORANGE)
     draw_line(Vector2(20, size.y - 28), Vector2(size.x - 20, size.y - 28), Color(ORANGE.r, ORANGE.g, ORANGE.b, 0.35), 1.0)

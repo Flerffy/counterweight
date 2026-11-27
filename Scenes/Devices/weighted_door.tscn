@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cvkg0q1603nme" path="res://Scripts/Devices/weighted_door.gd" id="1_sy7xm"]
 
-[ext_resource type="Texture2D" path="res://Assets/Art/Door.png" id="door_art"]
+[ext_resource type="Texture2D" path="res://Assets/Art/DoorVisible.tres" id="door_art"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fgg6h"]
 size = Vector2(32, 64)

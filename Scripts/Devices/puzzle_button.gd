@@ -69,7 +69,8 @@ func set_flash(enabled: bool) -> void:
 func _refresh_visual() -> void:
     plate.plate_visual.color = Color(1.0, 0.9, 0.3) if is_flashing else (Color(0.28, 0.85, 0.5) if is_active else Color(0.95, 0.32, 0.3))
     if plate.button_sprite != null:
-        plate.button_sprite.modulate = Color(1.5, 1.45, 0.85) if is_flashing else (Color(0.60, 1.0, 0.75) if is_active else Color.WHITE)
+        # Artwork shows contact state; only sequence playback flashes it.
+        plate.button_sprite.modulate = Color(1.5, 1.45, 0.85) if is_flashing else Color.WHITE
     if mode != Mode.TIMED or not is_active:
         match mode:
             Mode.TOGGLE:
