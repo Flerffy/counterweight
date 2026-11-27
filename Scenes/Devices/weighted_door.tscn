@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://cvkg0q1603nme" path="res://Scripts/Devices/weighted_door.gd" id="1_sy7xm"]
 
+[ext_resource type="Texture2D" path="res://Assets/Art/Door.png" id="door_art"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fgg6h"]
 size = Vector2(32, 64)
 
@@ -9,8 +11,13 @@ size = Vector2(32, 64)
 script = ExtResource("1_sy7xm")
 
 [node name="Polygon2D" type="Polygon2D" parent="." unique_id=472674274]
+visible = false
 color = Color(0.641934, 0.641934, 0.641934, 1)
 polygon = PackedVector2Array(-16, -32, 16, -32, 16, 32, -16, 32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1782903739]
 shape = SubResource("RectangleShape2D_fgg6h")
+
+[node name="DoorArt" type="Sprite2D" parent="."]
+texture = ExtResource("door_art")
+texture_filter = 1

@@ -40,6 +40,7 @@ signal activation_changed(active: bool)
 # NODE REFERENCES
 # -----------------------------------------------------------------------------
 @onready var plate_visual: Polygon2D = $Polygon2D
+@onready var button_sprite: Sprite2D = get_node_or_null("ButtonSprite") as Sprite2D
 
 
 # -----------------------------------------------------------------------------
@@ -204,3 +205,5 @@ func _physics_process(_delta: float) -> void:
 # -----------------------------------------------------------------------------
 func _update_visual() -> void:
     plate_visual.color = active_color if is_active else inactive_color
+    if button_sprite != null:
+        button_sprite.modulate = Color(0.65, 1.0, 0.8) if is_active else Color.WHITE

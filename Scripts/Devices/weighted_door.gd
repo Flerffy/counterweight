@@ -31,6 +31,7 @@ class_name WeightedDoor
 # -----------------------------------------------------------------------------
 # STATE
 # -----------------------------------------------------------------------------
+@onready var art: Sprite2D = get_node_or_null("DoorArt") as Sprite2D
 var is_open: bool = false
 
 
@@ -38,6 +39,9 @@ var is_open: bool = false
 # INITIALIZATION
 # -----------------------------------------------------------------------------
 func _ready() -> void:
+    if art != null and collision_shape.shape is RectangleShape2D:
+        var sz: Vector2 = (collision_shape.shape as RectangleShape2D).size
+        art.scale = Vector2(sz.x / 38.0, sz.y / 67.0)
     _update_door()
 
 
@@ -58,7 +62,9 @@ func set_open(open: bool) -> void:
 
 ## Synchronizes visual appearance and physical collision.
 func _update_door() -> void:
-    door_visual.visible = not is_open
+    door_visual.visible = false if art != null else not is_open
+    if art != null:
+        art.visible = not is_open
 
     # Defer physics changes to avoid modifying collision shapes
     # while Godot is processing physics queries.

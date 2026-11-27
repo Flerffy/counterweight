@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4]
+[gd_scene load_steps=18 format=4]
 
 [ext_resource type="Script" path="res://Scripts/Levels/level_room.gd" id="1"]
 [ext_resource type="PackedScene" path="res://Scenes/Player/player.tscn" id="2"]
@@ -11,6 +11,10 @@
 [ext_resource type="Script" path="res://Scripts/Levels/level_hazard.gd" id="9"]
 [ext_resource type="Script" path="res://Scripts/Levels/sequence_controller.gd" id="10"]
 [ext_resource type="Script" path="res://Scripts/Levels/level_camera.gd" id="11"]
+[ext_resource type="Script" path="res://Scripts/Levels/level_backdrop.gd" id="backdrop"]
+[ext_resource type="SpriteFrames" path="res://Assets/Art/Hazards/ElectricFloorFrames.tres" id="electric"]
+[ext_resource type="Script" path="res://Scripts/UI/game_hud.gd" id="hud_script"]
+[ext_resource type="Texture2D" path="res://Assets/Art/PlatformGrey.tres" id="platform_trim"]
 
 [sub_resource type="RectangleShape2D" id="1"]
 size = Vector2(32, 22)
@@ -24,6 +28,12 @@ level_number = 5
 level_title = "The Ascent"
 hint = "Carry and stack blocks to reach the upper ledge. Transfer weight for the jump over spikes."
 next_scene = "res://Scenes/Levels/level_06.tscn"
+
+[node name="Backdrop" type="Node2D" parent="."]
+z_index = -20
+texture_filter = 1
+script = ExtResource("backdrop")
+room_width = 1024
 
 [node name="Player" parent="." instance=ExtResource("2")]
 position = Vector2(80, 480)
@@ -40,7 +50,7 @@ limit_bottom = 576
 
 [node name="Terrain" type="TileMapLayer" parent="."]
 position = Vector2(16, 16)
-tile_map_data = PackedByteArray("AAAAAA8AAAAAAAAAAAAAABAAAAAAAAAAAAAAABEAAAAAAAAAAAABAA8AAAAAAAAAAAABABAAAAAAAAAAAAABABEAAAAAAAAAAAACAA8AAAAAAAAAAAACABAAAAAAAAAAAAACABEAAAAAAAAAAAADAA8AAAAAAAAAAAADABAAAAAAAAAAAAADABEAAAAAAAAAAAAEAA8AAAAAAAAAAAAEABAAAAAAAAAAAAAEABEAAAAAAAAAAAAFAA8AAAAAAAAAAAAFABAAAAAAAAAAAAAFABEAAAAAAAAAAAAGAA8AAAAAAAAAAAAGABAAAAAAAAAAAAAGABEAAAAAAAAAAAAHAA8AAAAAAAAAAAAHABAAAAAAAAAAAAAHABEAAAAAAAAAAAAIAA8AAAAAAAAAAAAIABAAAAAAAAAAAAAIABEAAAAAAAAAAAAJAA8AAAAAAAAAAAAJABAAAAAAAAAAAAAJABEAAAAAAAAAAAAKAA8AAAAAAAAAAAAKABAAAAAAAAAAAAAKABEAAAAAAAAAAAALAA8AAAAAAAAAAAALABAAAAAAAAAAAAALABEAAAAAAAAAAAAMAA8AAAAAAAAAAAAMABAAAAAAAAAAAAAMABEAAAAAAAAAAAANAA8AAAAAAAAAAAANABAAAAAAAAAAAAANABEAAAAAAAAAAAAOAA8AAAAAAAAAAAAOABAAAAAAAAAAAAAOABEAAAAAAAAAAAAPAA8AAAAAAAAAAAAPABAAAAAAAAAAAAAPABEAAAAAAAAAAAAQAA8AAAAAAAAAAAAQABAAAAAAAAAAAAAQABEAAAAAAAAAAAARAA8AAAAAAAAAAAARABAAAAAAAAAAAAARABEAAAAAAAAAAAASAA8AAAAAAAAAAAASABAAAAAAAAAAAAASABEAAAAAAAAAAAATAA8AAAAAAAAAAAATABAAAAAAAAAAAAATABEAAAAAAAAAAAAUAAoAAAAAAAAAAAAUAA8AAAAAAAAAAAAUABAAAAAAAAAAAAAUABEAAAAAAAAAAAAVAAoAAAAAAAAAAAAWAAoAAAAAAAAAAAAXAAoAAAAAAAAAAAAYAAoAAAAAAAAAAAAZAAoAAAAAAAAAAAAaAAoAAAAAAAAAAAAbAAoAAAAAAAAAAAAcAAoAAAAAAAAAAAAdAAoAAAAAAAAAAAAeAAoAAAAAAAAAAAAfAAoAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAARAAAAAAAAAAAAAQAPAAAAAAAAAAAAAQAQAAAAAAAAAAAAAQARAAAAAAAAAAAAAgAPAAAAAAAAAAAAAgAQAAAAAAAAAAAAAgARAAAAAAAAAAAAAwAPAAAAAAAAAAAAAwAQAAAAAAAAAAAAAwARAAAAAAAAAAAABAAPAAAAAAAAAAAABAAQAAAAAAAAAAAABAARAAAAAAAAAAAABQAPAAAAAAAAAAAABQAQAAAAAAAAAAAABQARAAAAAAAAAAAABgAPAAAAAAAAAAAABgAQAAAAAAAAAAAABgARAAAAAAAAAAAABwAPAAAAAAAAAAAABwAQAAAAAAAAAAAABwARAAAAAAAAAAAACAAPAAAAAAAAAAAACAAQAAAAAAAAAAAACAARAAAAAAAAAAAACQAPAAAAAAAAAAAACQAQAAAAAAAAAAAACQARAAAAAAAAAAAACgAPAAAAAAAAAAAACgAQAAAAAAAAAAAACgARAAAAAAAAAAAACwAPAAAAAAAAAAAACwAQAAAAAAAAAAAACwARAAAAAAAAAAAADAAPAAAAAAAAAAAADAAQAAAAAAAAAAAADAARAAAAAAAAAAAADQAPAAAAAAAAAAAADQAQAAAAAAAAAAAADQARAAAAAAAAAAAADgAPAAAAAAAAAAAADgAQAAAAAAAAAAAADgARAAAAAAAAAAAADwAPAAAAAAAAAAAADwAQAAAAAAAAAAAADwARAAAAAAAAAAAAEAAPAAAAAAAAAAAAEAAQAAAAAAAAAAAAEAARAAAAAAAAAAAAEQAPAAAAAAAAAAAAEQAQAAAAAAAAAAAAEQARAAAAAAAAAAAAEgAPAAAAAAAAAAAAEgAQAAAAAAAAAAAAEgARAAAAAAAAAAAAEwAPAAAAAAAAAAAAEwAQAAAAAAAAAAAAEwARAAAAAAAAAAAAFAAKAAAAAAAAAAAAFAAPAAAAAAAAAAAAFAAQAAAAAAAAAAAAFAARAAAAAAAAAAAAFQAKAAAAAAAAAAAAFgAKAAAAAAAAAAAAFwAKAAAAAAAAAAAAGAAKAAAAAAAAAAAAGQAKAAAAAAAAAAAAGgAKAAAAAAAAAAAAGwAKAAAAAAAAAAAAHAAKAAAAAAAAAAAAHQAKAAAAAAAAAAAAHgAKAAAAAAAAAAAAHwAKAAAAAAAAAAAAAAA=")
 tile_set = ExtResource("3")
 
 [node name="BalanceController" type="Node" parent="."]
@@ -65,6 +75,7 @@ collision_mask = 1
 script = ExtResource("9")
 
 [node name="Polygon2D" type="Polygon2D" parent="Spikes1"]
+visible = false
 color = Color(0.95, 0.22, 0.32, 1)
 polygon = PackedVector2Array(-16, 7, -8, -12, 0, 7, 8, -12, 16, 7)
 
@@ -78,6 +89,7 @@ collision_mask = 1
 script = ExtResource("9")
 
 [node name="Polygon2D" type="Polygon2D" parent="Spikes2"]
+visible = false
 color = Color(0.95, 0.22, 0.32, 1)
 polygon = PackedVector2Array(-16, 7, -8, -12, 0, 7, 8, -12, 16, 7)
 
@@ -91,6 +103,7 @@ collision_mask = 1
 script = ExtResource("9")
 
 [node name="Polygon2D" type="Polygon2D" parent="Spikes3"]
+visible = false
 color = Color(0.95, 0.22, 0.32, 1)
 polygon = PackedVector2Array(-16, 7, -8, -12, 0, 7, 8, -12, 16, 7)
 
@@ -104,6 +117,7 @@ collision_mask = 1
 script = ExtResource("9")
 
 [node name="Polygon2D" type="Polygon2D" parent="Spikes4"]
+visible = false
 color = Color(0.95, 0.22, 0.32, 1)
 polygon = PackedVector2Array(-16, 7, -8, -12, 0, 7, 8, -12, 16, 7)
 
@@ -117,6 +131,7 @@ collision_mask = 1
 script = ExtResource("9")
 
 [node name="Polygon2D" type="Polygon2D" parent="Spikes5"]
+visible = false
 color = Color(0.95, 0.22, 0.32, 1)
 polygon = PackedVector2Array(-16, 7, -8, -12, 0, 7, 8, -12, 16, 7)
 
@@ -135,34 +150,104 @@ shape = SubResource("2")
 [node name="Exit" parent="." instance=ExtResource("8")]
 position = Vector2(944, 288)
 
+[node name="PlatformTrim20" type="Sprite2D" parent="."]
+position = Vector2(672, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim21" type="Sprite2D" parent="."]
+position = Vector2(704, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim22" type="Sprite2D" parent="."]
+position = Vector2(736, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim23" type="Sprite2D" parent="."]
+position = Vector2(768, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim24" type="Sprite2D" parent="."]
+position = Vector2(800, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim25" type="Sprite2D" parent="."]
+position = Vector2(832, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim26" type="Sprite2D" parent="."]
+position = Vector2(864, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim27" type="Sprite2D" parent="."]
+position = Vector2(896, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim28" type="Sprite2D" parent="."]
+position = Vector2(928, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim29" type="Sprite2D" parent="."]
+position = Vector2(960, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim30" type="Sprite2D" parent="."]
+position = Vector2(992, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
+[node name="PlatformTrim31" type="Sprite2D" parent="."]
+position = Vector2(1024, 336)
+texture = ExtResource("platform_trim")
+texture_filter = 1
+
 [node name="HUD" type="CanvasLayer" parent="."]
 layer = 2
 
-[node name="Header" type="Panel" parent="HUD"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 940.0
-offset_bottom = 103.0
+[node name="GameHUD" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("hud_script")
 
-[node name="LevelTitle" type="Label" parent="HUD/Header"]
-offset_left = 12.0
-offset_top = 6.0
-offset_right = 910.0
-offset_bottom = 34.0
-theme_override_font_sizes/font_size = 20
+[node name="ElectricVisual" type="AnimatedSprite2D" parent="Spikes1"]
+sprite_frames = ExtResource("electric")
+animation = &"default"
+autoplay = "default"
+texture_filter = 1
 
-[node name="Hint" type="Label" parent="HUD/Header"]
-offset_left = 12.0
-offset_top = 34.0
-offset_right = 910.0
-offset_bottom = 80.0
-autowrap_mode = 2
-theme_override_font_sizes/font_size = 13
+[node name="ElectricVisual" type="AnimatedSprite2D" parent="Spikes2"]
+sprite_frames = ExtResource("electric")
+animation = &"default"
+autoplay = "default"
+texture_filter = 1
 
-[node name="Controls" type="Label" parent="HUD"]
-offset_left = 14.0
-offset_top = 542.0
-offset_right = 940.0
-offset_bottom = 568.0
-text = "A / D Move   ·   SPACE Jump   ·   Q Give   ·   E Take   ·   F Carry / Drop   ·   R Reset"
-theme_override_font_sizes/font_size = 13
+[node name="ElectricVisual" type="AnimatedSprite2D" parent="Spikes3"]
+sprite_frames = ExtResource("electric")
+animation = &"default"
+autoplay = "default"
+texture_filter = 1
+
+[node name="ElectricVisual" type="AnimatedSprite2D" parent="Spikes4"]
+sprite_frames = ExtResource("electric")
+animation = &"default"
+autoplay = "default"
+texture_filter = 1
+
+[node name="ElectricVisual" type="AnimatedSprite2D" parent="Spikes5"]
+sprite_frames = ExtResource("electric")
+animation = &"default"
+autoplay = "default"
+texture_filter = 1

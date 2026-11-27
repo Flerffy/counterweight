@@ -1,14 +1,16 @@
-[gd_resource type="TileSet" format=3 uid="uid://bm4cl6ff74w4s"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://bm4cl6ff74w4s"]
 
-[ext_resource type="Texture2D" uid="uid://bgsr07tfm0paa" path="res://Assets/Tilesets/pa-tileset.png" id="1_64285"]
+[ext_resource type="Texture2D" path="res://Assets/Art/Tileset.png" id="1"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ya60v"]
-texture = ExtResource("1_64285")
+[sub_resource type="TileSetAtlasSource" id="Atlas"]
+texture = ExtResource("1")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+0:1/0 = 0
+0:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [resource]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_ya60v")
+sources/0 = SubResource("Atlas")

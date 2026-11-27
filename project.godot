@@ -11,9 +11,17 @@ config_version=5
 [application]
 
 config/name="counterweight"
-run/main_scene="res://Scenes/Levels/level_01.tscn"
+run/main_scene="res://Scenes/UI/main_menu.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://Scripts/Systems/game_state.gd"
+
+[audio]
+
+buses/default_bus_layout="res://Audio/buses.tres"
 
 [display]
 
@@ -23,6 +31,7 @@ window/stretch/mode="canvas_items"
 
 [global_group]
 
+puzzle_buttons="Reusable button mechanisms"
 carryable="Objects that may be carried"
 
 [input]

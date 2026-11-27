@@ -4,9 +4,10 @@ class_name LevelRoom
 # =============================================================================
 # LEVEL ROOM
 # =============================================================================
-# Connects the existing weight-transfer systems and linear level progression.
-# R reloads the current level; the exit opens the next scene.
+# Coordinates player weight transfer, HUD, pause and checkpoint-style autosave.
 # =============================================================================
+
+const PAUSE_OVERLAY: PackedScene = preload("res://Scenes/UI/pause_overlay.tscn")
 
 @export_range(1, 15) var level_number: int = 1
 @export var level_title: String = "Puzzle"
@@ -16,20 +17,31 @@ class_name LevelRoom
 @onready var player_interaction: PlayerInteraction = $Player/PlayerInteraction
 @onready var balance_controller: BalanceController = $BalanceController
 @onready var exit: LevelExit = $Exit
-@onready var hud_title: Label = $HUD/Header/LevelTitle
-@onready var hud_hint: Label = $HUD/Header/Hint
+@onready var hud: GameHUD = $HUD/GameHUD
+var pause_layer: CanvasLayer
 
 func _ready() -> void:
     player_interaction.balance_controller = balance_controller
     exit.reached.connect(_on_exit_reached)
-    hud_title.text = "%02d / 15  ·  %s" % [level_number, level_title]
-    hud_hint.text = hint
+    hud.setup(level_number, level_title, hint)
+    GameState.enter_level(level_number)
 
 func _unhandled_input(event: InputEvent) -> void:
-    if event.is_action_pressed("reset_room") and not event.is_echo():
+    if event.is_echo():
+        return
+    if event.is_action_pressed("reset_room"):
+        get_viewport().set_input_as_handled()
         get_tree().call_deferred("reload_current_scene")
+    elif event.is_action_pressed("ui_cancel"):
+        get_viewport().set_input_as_handled()
+        if not is_instance_valid(pause_layer):
+            pause_layer = PAUSE_OVERLAY.instantiate() as CanvasLayer
+            add_child(pause_layer)
+            get_tree().paused = true
 
 func _on_exit_reached() -> void:
+    # Saved immediately upon reaching the exit, before the next scene loads.
+    GameState.complete_level(level_number)
     var target: String = next_scene
     if target.is_empty():
         target = "res://Scenes/Levels/victory.tscn"
