@@ -39,6 +39,10 @@ signal activation_changed(active: bool)
 # -----------------------------------------------------------------------------
 # NODE REFERENCES
 # -----------------------------------------------------------------------------
+# The tileset supplies two separate 16x2 button sprites, not one 32x2 sprite.
+const BUTTON_RELEASED: Texture2D = preload("res://Assets/Art/ButtonReleased.tres")
+const BUTTON_DEPRESSED: Texture2D = preload("res://Assets/Art/ButtonDepressed.tres")
+
 @onready var plate_visual: Polygon2D = $Polygon2D
 @onready var button_sprite: Sprite2D = get_node_or_null("ButtonSprite") as Sprite2D
 
@@ -206,4 +210,6 @@ func _physics_process(_delta: float) -> void:
 func _update_visual() -> void:
     plate_visual.color = active_color if is_active else inactive_color
     if button_sprite != null:
-        button_sprite.modulate = Color(0.65, 1.0, 0.8) if is_active else Color.WHITE
+        # Depressed artwork tracks PHYSICAL pressure; toggle/timer latches
+        # live in PuzzleButton and need not keep the button pressed down.
+        button_sprite.texture = BUTTON_DEPRESSED if is_active else BUTTON_RELEASED

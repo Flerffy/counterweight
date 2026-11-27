@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c01ql80nytdan" path="res://Scripts/Devices/pressure_plate.gd" id="1_lgxwx"]
 
-[ext_resource type="Texture2D" path="res://Assets/Art/ButtonGold.tres" id="button_art"]
+[ext_resource type="Texture2D" path="res://Assets/Art/ButtonReleased.tres" id="button_art"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_egw3n"]
 size = Vector2(32, 8)
@@ -21,7 +21,7 @@ position = Vector2(0, -4)
 shape = SubResource("RectangleShape2D_egw3n")
 
 [node name="ButtonSprite" type="Sprite2D" parent="."]
-position = Vector2(0, -4)
-scale = Vector2(1, 3)
+position = Vector2(0, -3)
+scale = Vector2(2, 3)
 texture = ExtResource("button_art")
 texture_filter = 1

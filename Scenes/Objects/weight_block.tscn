@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://xrj2dfwd0yc3" path="res://Scripts/Components/weight_indicator.gd" id="2_i3det"]
 
 [ext_resource type="Script" path="res://Scripts/Objects/weight_block_visual.gd" id="block_visual"]
+[ext_resource type="Texture2D" path="res://Assets/Art/BlockOrange.tres" id="block_orange_art"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y6cm1"]
 size = Vector2(32, 32)
@@ -42,5 +43,6 @@ shape = SubResource("RectangleShape2D_i3det")
 
 [node name="Art" type="Sprite2D" parent="."]
 scale = Vector2(2, 2)
+texture = ExtResource("block_orange_art")
 texture_filter = 1
 script = ExtResource("block_visual")

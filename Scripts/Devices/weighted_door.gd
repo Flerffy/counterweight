@@ -39,9 +39,15 @@ var is_open: bool = false
 # INITIALIZATION
 # -----------------------------------------------------------------------------
 func _ready() -> void:
-    if art != null and collision_shape.shape is RectangleShape2D:
-        var sz: Vector2 = (collision_shape.shape as RectangleShape2D).size
-        art.scale = Vector2(sz.x / 38.0, sz.y / 67.0)
+    if art != null and art.texture != null and collision_shape.shape is RectangleShape2D:
+        # DoorVisible.tres crops the transparent border from the source PNG.
+        # Fit that visible artwork exactly to the collision rectangle for
+        # both normal and tall door scene variants.
+        var size: Vector2 = (collision_shape.shape as RectangleShape2D).size
+        var art_size: Vector2 = art.texture.get_size()
+        if art_size.x > 0.0 and art_size.y > 0.0:
+            art.scale = size / art_size
+            art.position = collision_shape.position
     _update_door()
 
 

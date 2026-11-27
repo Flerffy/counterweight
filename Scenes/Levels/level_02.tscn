@@ -1,23 +1,15 @@
-[gd_scene load_steps=19 format=4]
+[gd_scene format=3 uid="uid://doew2f26a2bs0"]
 
-[ext_resource type="Script" path="res://Scripts/Levels/level_room.gd" id="1"]
-[ext_resource type="PackedScene" path="res://Scenes/Player/player.tscn" id="2"]
-[ext_resource type="Script" path="res://Scripts/Levels/terrain_section.gd" id="terrain_script"]
-[ext_resource type="PackedScene" path="res://Scenes/Objects/weight_block.tscn" id="4"]
-[ext_resource type="Script" path="res://Scripts/Systems/balance_controller.gd" id="5"]
-[ext_resource type="PackedScene" path="res://Scenes/Devices/puzzle_button.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://Scenes/Devices/tall_weighted_door.tscn" id="7"]
+[ext_resource type="Script" uid="uid://bpenpxhexo4p5" path="res://Scripts/Levels/level_room.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bbvf23gvf4fu2" path="res://Scenes/Player/player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b0ac51tn0vb2k" path="res://Scenes/Objects/weight_block.tscn" id="4"]
+[ext_resource type="Script" uid="uid://bflvnycpr1oyi" path="res://Scripts/Systems/balance_controller.gd" id="5"]
 [ext_resource type="PackedScene" path="res://Scenes/Devices/level_exit.tscn" id="8"]
-[ext_resource type="Script" path="res://Scripts/Levels/level_hazard.gd" id="9"]
-[ext_resource type="Script" path="res://Scripts/Levels/sequence_controller.gd" id="10"]
-[ext_resource type="Script" path="res://Scripts/Levels/level_camera.gd" id="11"]
-[ext_resource type="Texture2D" path="res://Assets/Art/BG.png" id="bg_texture"]
-[ext_resource type="SpriteFrames" path="res://Assets/Art/Hazards/ElectricFloorFrames.tres" id="electric"]
-[ext_resource type="Script" path="res://Scripts/UI/game_hud.gd" id="hud_script"]
-[ext_resource type="Texture2D" path="res://Assets/Art/PlatformGrey.tres" id="platform_trim"]
-
-[sub_resource type="RectangleShape2D" id="void"]
-size = Vector2(1024, 64)
+[ext_resource type="Script" uid="uid://c7p4ul43yhopa" path="res://Scripts/Levels/level_hazard.gd" id="9"]
+[ext_resource type="Script" uid="uid://bcgxw2osff85c" path="res://Scripts/Levels/level_camera.gd" id="11"]
+[ext_resource type="Texture2D" uid="uid://d2i8qgb3ggf2f" path="res://Assets/Art/BG.png" id="bg_texture"]
+[ext_resource type="Script" uid="uid://c0gp8ogy6mm7s" path="res://Scripts/UI/game_hud.gd" id="hud_script"]
+[ext_resource type="Script" uid="uid://dl0ulq80mk00" path="res://Scripts/Levels/terrain_section.gd" id="terrain_script"]
 
 [sub_resource type="RectangleShape2D" id="terrain_rect_01"]
 size = Vector2(256, 32)
@@ -25,128 +17,84 @@ size = Vector2(256, 32)
 [sub_resource type="RectangleShape2D" id="terrain_rect_02"]
 size = Vector2(800, 96)
 
-[node name="Level02" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="void"]
+size = Vector2(1024, 64)
+
+[node name="Level02" type="Node2D" unique_id=946252129]
 script = ExtResource("1")
 level_number = 2
 level_title = "Building Higher"
 hint = "F: move two blocks. Stand on the lower block while carrying the second, then drop it to stack."
 next_scene = "res://Scenes/Levels/level_03.tscn"
 
-[node name="Backdrop" type="Parallax2D" parent="."]
+[node name="Backdrop" type="Parallax2D" parent="." unique_id=1147886254]
 z_index = -20
 scroll_scale = Vector2(0.15, 0.05)
-repeat_size = Vector2(0, 0)
 
-[node name="BackgroundArt" type="Sprite2D" parent="Backdrop"]
+[node name="BackgroundArt" type="Sprite2D" parent="Backdrop" unique_id=1410272346]
+texture_filter = 1
 position = Vector2(480, 288)
 scale = Vector2(8, 8)
 texture = ExtResource("bg_texture")
-texture_filter = 1
 
-[node name="Player" parent="." instance=ExtResource("2")]
+[node name="Player" parent="." unique_id=740149103 instance=ExtResource("2")]
 position = Vector2(80, 480)
 light_jump_speed = 460.0
 normal_jump_speed = 380.0
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=672267886]
 position = Vector2(80, 240)
-script = ExtResource("11")
 limit_left = 0
-limit_right = 1024
 limit_top = 0
+limit_right = 1024
 limit_bottom = 576
+script = ExtResource("11")
 
-[node name="Terrain" type="Node2D" parent="."]
+[node name="Terrain" type="Node2D" parent="." unique_id=705336882]
 
-[node name="TerrainSection01" type="StaticBody2D" parent="Terrain"]
-position = Vector2(896, 368)
-collision_layer = 1
+[node name="TerrainSection01" type="StaticBody2D" parent="Terrain" unique_id=796087633]
 texture_filter = 1
+position = Vector2(896, 368)
 script = ExtResource("terrain_script")
 columns = 8
-rows = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/TerrainSection01"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/TerrainSection01" unique_id=256188796]
 shape = SubResource("terrain_rect_01")
 
-[node name="TerrainSection02" type="StaticBody2D" parent="Terrain"]
-position = Vector2(400, 528)
-collision_layer = 1
+[node name="TerrainSection02" type="StaticBody2D" parent="Terrain" unique_id=390071743]
 texture_filter = 1
+position = Vector2(400, 528)
 script = ExtResource("terrain_script")
 columns = 25
 rows = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/TerrainSection02"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Terrain/TerrainSection02" unique_id=958173888]
 shape = SubResource("terrain_rect_02")
 
-[node name="BalanceController" type="Node" parent="."]
+[node name="BalanceController" type="Node" parent="." unique_id=94513474]
 script = ExtResource("5")
 
-[node name="Block1" parent="." instance=ExtResource("4")]
+[node name="Block1" parent="." unique_id=317978682 instance=ExtResource("4")]
 position = Vector2(208, 464)
 
-
-[node name="Block2" parent="." instance=ExtResource("4")]
+[node name="Block2" parent="." unique_id=1595021454 instance=ExtResource("4")]
 position = Vector2(368, 464)
 
-
-[node name="VoidReset" type="Area2D" parent="."]
+[node name="VoidReset" type="Area2D" parent="." unique_id=1052003655]
 position = Vector2(512, 620)
 collision_layer = 0
-collision_mask = 1
 script = ExtResource("9")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="VoidReset"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VoidReset" unique_id=87838944]
 shape = SubResource("void")
 
-[node name="Exit" parent="." instance=ExtResource("8")]
+[node name="Exit" parent="." unique_id=1571365781 instance=ExtResource("8")]
 position = Vector2(912, 320)
 
-[node name="PlatformTrim24" type="Sprite2D" parent="."]
-position = Vector2(800, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim25" type="Sprite2D" parent="."]
-position = Vector2(832, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim26" type="Sprite2D" parent="."]
-position = Vector2(864, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim27" type="Sprite2D" parent="."]
-position = Vector2(896, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim28" type="Sprite2D" parent="."]
-position = Vector2(928, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim29" type="Sprite2D" parent="."]
-position = Vector2(960, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim30" type="Sprite2D" parent="."]
-position = Vector2(992, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="PlatformTrim31" type="Sprite2D" parent="."]
-position = Vector2(1024, 368)
-texture = ExtResource("platform_trim")
-texture_filter = 1
-
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1924625895]
 layer = 2
 
-[node name="GameHUD" type="Control" parent="HUD"]
+[node name="GameHUD" type="Control" parent="HUD" unique_id=311175484]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -154,4 +102,3 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("hud_script")
-
