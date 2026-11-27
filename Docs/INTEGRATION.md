@@ -6,13 +6,13 @@ public `main` repository file hashes when work began. Keep the changes in a
 new branch and resolve any subsequent contributions from Flocos before merge.
 
 ## Supplied art
-- `Assets/Art/Tileset.png`: 32×32 orange terrain (used by existing 15 level tilemaps),
+- `Assets/Art/Tileset.png`: 32×32 orange terrain (drawn by solid `TerrainSection` nodes in all 15 levels),
   32×32 teal alternative tile (available in TileSet), 16×16 orange/teal blocks
   (displayed at 2× to preserve the existing 32×32 physics), 32×6 gray platform
   (new reusable `Scenes/Objects/one_way_platform.tscn`, with visual trim on early raised ledges), and 32×2 yellow button.
 - `Assets/Art/Door.png`: scaled into existing 32×64 and 32×128 door colliders;
   tall variation is stretched vertically, which can be replaced if more art arrives.
-- `Assets/Art/BG.png`: tiled behind all 15 gameplay rooms and on the main menu.
+- `Assets/Art/BG.png`: a single, non-repeating image in each level’s `Parallax2D`; on the main menu it is uniformly cover-scaled, not tiled.
 - `Assets/Art/Hazards/e-floor-source.gif`: original animated hazard. Since a Godot
   AnimatedSprite2D uses SpriteFrames textures, it was split into three transparent
   PNG frames, each played at 10 frames/second. Spike hazard colliders remain.
@@ -49,10 +49,11 @@ or the player. `R` reloads the current room without changing the unlock state.
 9. Press Esc in a room; verify pause/resume and menu navigation.
 10. Complete Level 15 and confirm victory and navigation.
 
-## Greybox repair
-The 15 level scenes in the earlier ZIP contained tile_map_data with misplaced x/y
-fields. Those byte arrays have been re-encoded to the same 12-byte tile format
-used by the working prototype. Verify terrain and collision in the editor.
+## Terrain repair
+The earlier packed TileMapLayer data has been removed from all 15 levels.
+Solid geometry was rebuilt as `StaticBody2D` terrain sections with serialized
+`CollisionShape2D` rectangles and 32×32 art drawing. See `TERRAIN_REPAIR.md`.
+Verify all stages and their collisions in the Godot editor before merging.
 
 ## Unverified
 No full automated Godot runtime test or manual solvability playtest was possible
