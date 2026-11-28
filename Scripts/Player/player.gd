@@ -35,6 +35,23 @@ extends CharacterBody2D
 # NODE REFERENCES
 # -----------------------------------------------------------------------------
 @onready var weight_component: WeightComponent = $WeightComponent
+@onready var player_sprite: Sprite2D = $Sprite2D
+
+const WHEEL_SOUND: AudioStreamWAV = preload("res://Audio/SFX/Wheel_sound.wav")
+var wheel_player: AudioStreamPlayer
+
+func _ready() -> void:
+    # Duplicate the WAV before modifying its loop setting: the imported asset
+    # stays unchanged and each player instance owns its playback resource.
+    var wheel_loop: AudioStreamWAV = WHEEL_SOUND.duplicate() as AudioStreamWAV
+    wheel_loop.loop_mode = AudioStreamWAV.LOOP_FORWARD
+
+    wheel_player = AudioStreamPlayer.new()
+    wheel_player.name = "WheelAudio"
+    wheel_player.bus = &"SFX"
+    wheel_player.volume_db = -6.0
+    wheel_player.stream = wheel_loop
+    add_child(wheel_player)
 
 
 # -----------------------------------------------------------------------------
@@ -56,7 +73,20 @@ func _physics_process(delta: float) -> void:
 
     velocity.x = direction * move_speed
 
+    if direction > 0.0:
+        player_sprite.flip_h = false
+    elif direction < 0.0:
+        player_sprite.flip_h = true
+    # Keep the last facing direction when idle.
+
     move_and_slide()
+
+    # Wheel audio runs only while moving on the ground, never in midair.
+    var should_roll: bool = not is_zero_approx(direction) and is_on_floor()
+    if should_roll and not wheel_player.playing:
+        wheel_player.play()
+    elif not should_roll and wheel_player.playing:
+        wheel_player.stop()
 
 
 # -----------------------------------------------------------------------------

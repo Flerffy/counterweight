@@ -115,6 +115,8 @@ func _attempt_transfer(forward: bool) -> void:
             return
 
     var successful: bool = balance_controller.transfer_weight(source, receiver)
+    if successful:
+        SoundManager.play_manipulation()
     if debug_logging:
         if successful:
             print("Transfer: ", source.get_parent().name,

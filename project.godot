@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameState="*res://Scripts/Systems/game_state.gd"
 MusicManager="*res://Scripts/Systems/music_manager.gd"
+SoundManager="*res://Scripts/Systems/sound_manager.gd"
 
 [audio]
 
