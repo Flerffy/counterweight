@@ -36,8 +36,8 @@ for targeted playtests. `Scenes/Rooms/test_room.tscn` is preserved.
 ## Artwork
 
 The supplied team sprites are integrated: orange floor tiles, teal alternate
-terrain, recolored small physics blocks, door sprites, tiled industrial
-background, gold button sprites and three-frame electric-floor hazards. Gray
+terrain, recolored small physics blocks, door sprites, a single non-repeating
+parallax background, two-state gold buttons and three-frame electric-floor hazards. Gray
 platform artwork is available as a reusable one-way platform and as trim on
 select ledges. See `Docs/INTEGRATION.md`.
 

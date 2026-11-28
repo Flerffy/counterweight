@@ -31,6 +31,8 @@ class_name PlayerInteraction
 @onready var player_weight: WeightComponent = $"../WeightComponent"
 @onready var contact_detector: WeightContactDetector = $"../ContactDetector"
 
+@export var debug_logging: bool = false ## Enable transfer diagnostics in the Output panel.
+
 var balance_controller: BalanceController
 var available_targets: Array[WeightComponent] = []
 
@@ -108,18 +110,18 @@ func _attempt_transfer(forward: bool) -> void:
 
         _:
             # Avoid choosing arbitrary objects in crowded spaces.
-            print("Multiple targets: selection required.")
+            if debug_logging:
+                print("Multiple targets: selection required.")
             return
 
-    if balance_controller.transfer_weight(source, receiver):
-        print(
-            "Transfer: ", source.get_parent().name,
-            " -> ", receiver.get_parent().name,
-            " | Weights: ", source.current_weight,
-            ", ", receiver.current_weight
-        )
-    else:
-        print("Weight transfer rejected.")
+    var successful: bool = balance_controller.transfer_weight(source, receiver)
+    if debug_logging:
+        if successful:
+            print("Transfer: ", source.get_parent().name,
+                " -> ", receiver.get_parent().name,
+                " | Weights: ", source.current_weight, ", ", receiver.current_weight)
+        else:
+            print("Weight transfer rejected.")
 
 
 # -----------------------------------------------------------------------------

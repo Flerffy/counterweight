@@ -16,6 +16,8 @@ const MUTED: Color = Color("c5a69e")
 const GOLD: Color = Color("e8bd6d")
 const TEAL: Color = Color("6ab6a0")
 
+@export var hide_player_world_indicator: bool = true ## Use the HUD instead of a duplicate overhead number.
+
 var level_number: int = 1
 var level_title: String = "Puzzle"
 var hint: String = ""
@@ -24,6 +26,7 @@ var weight: WeightComponent
 var carry: CarryComponent
 var detector: WeightContactDetector
 var font: Font
+var puzzle_buttons: Array[PuzzleButton] = []
 
 func setup(number: int, title: String, description: String) -> void:
     level_number = number
@@ -40,7 +43,16 @@ func _ready() -> void:
         weight = player.get_node_or_null("WeightComponent") as WeightComponent
         carry = player.get_node_or_null("CarryComponent") as CarryComponent
         detector = player.get_node_or_null("ContactDetector") as WeightContactDetector
-    set_process(true)
+        if hide_player_world_indicator:
+            var indicator: CanvasItem = player.get_node_or_null("WeightIndicator") as CanvasItem
+            if indicator != null:
+                indicator.visible = false
+
+    # Buttons in each authored room are static; cache them once instead of
+    # traversing the scene tree during every HUD redraw.
+    for node: Node in get_tree().get_nodes_in_group("puzzle_buttons"):
+        if node is PuzzleButton:
+            puzzle_buttons.append(node as PuzzleButton)
 
 func _process(_delta: float) -> void:
     queue_redraw()
@@ -120,9 +132,9 @@ func _get_context_prompt() -> String:
                     return "[F] CARRY  |  [Q/E] SHIFT"
                 return "TOO HEAVY  |  [E] TAKE"
             return "[Q/E] SHIFT WEIGHT"
-    for node: Node in get_tree().get_nodes_in_group("puzzle_buttons"):
-        if node is PuzzleButton and player.global_position.distance_to((node as PuzzleButton).global_position) < 65.0:
-            match (node as PuzzleButton).mode:
+    for button: PuzzleButton in puzzle_buttons:
+        if is_instance_valid(button) and player.global_position.distance_to(button.global_position) < 65.0:
+            match button.mode:
                 PuzzleButton.Mode.TOGGLE: return "STEP ON: TOGGLE"
                 PuzzleButton.Mode.TIMED: return "STEP ON: TIMED"
                 PuzzleButton.Mode.MOMENTARY: return "STAY ON: HOLD"

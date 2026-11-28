@@ -31,7 +31,7 @@ signal target_exited(component: WeightComponent)
 # -----------------------------------------------------------------------------
 # CONFIGURATION
 # -----------------------------------------------------------------------------
-@export var debug_logging: bool = true ## Print detected contacts to the Output panel.
+@export var debug_logging: bool = false ## Enable contact messages during debugging.
 
 
 # -----------------------------------------------------------------------------
