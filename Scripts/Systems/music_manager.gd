@@ -8,7 +8,7 @@ extends Node
 # existing Master and Music audio-bus settings.
 # =============================================================================
 
-const BGM: AudioStreamOggVorbis = preload("res://Audio/Music/counterweight_bgm.ogg")
+var BGM: AudioStreamOggVorbis = preload("res://Audio/Music/counterweight_bgm.ogg")
 
 var music_player: AudioStreamPlayer
 
