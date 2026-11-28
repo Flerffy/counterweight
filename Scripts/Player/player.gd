@@ -35,7 +35,7 @@ extends CharacterBody2D
 # NODE REFERENCES
 # -----------------------------------------------------------------------------
 @onready var weight_component: WeightComponent = $WeightComponent
-@onready var player_sprite: Sprite2D = $Sprite2D
+@onready var monowheel_visuals: MonowheelVisuals = $MonowheelVisuals
 
 const WHEEL_SOUND: AudioStreamWAV = preload("res://Audio/SFX/Wheel_sound.wav")
 var wheel_player: AudioStreamPlayer
@@ -58,31 +58,34 @@ func _ready() -> void:
 # PHYSICS
 # -----------------------------------------------------------------------------
 func _physics_process(delta: float) -> void:
+    var was_grounded: bool = is_on_floor()
 
-    if not is_on_floor():
+    if not was_grounded:
         velocity.y += gravity * delta
 
-    if is_on_floor() and Input.is_action_just_pressed("jump"):
+    if was_grounded and Input.is_action_just_pressed("jump"):
         # Negative Y is upward in Godot.
         velocity.y = -_get_jump_speed()
 
-    var direction: float = Input.get_axis(
-        "move_left",
-        "move_right"
-    )
-
+    var direction: float = Input.get_axis("move_left", "move_right")
     velocity.x = direction * move_speed
 
-    if direction > 0.0:
-        player_sprite.flip_h = false
-    elif direction < 0.0:
-        player_sprite.flip_h = true
-    # Keep the last facing direction when idle.
-
+    # Record the speed before the collision response, so the suspension
+    # can react to the force of a landing rather than the stopped velocity.
+    var impact_speed: float = velocity.y
+    var previous_x: float = global_position.x
     move_and_slide()
 
-    # Wheel audio runs only while moving on the ground, never in midair.
-    var should_roll: bool = not is_zero_approx(direction) and is_on_floor()
+    var grounded: bool = is_on_floor()
+    var just_landed: bool = not was_grounded and grounded and impact_speed > 0.0
+    var travelled_x: float = global_position.x - previous_x
+
+    monowheel_visuals.update_motion(
+        delta, travelled_x, direction, grounded, just_landed, impact_speed
+    )
+
+    # Wheel audio runs only while physically rolling on the ground.
+    var should_roll: bool = grounded and absf(travelled_x) > 0.01
     if should_roll and not wheel_player.playing:
         wheel_player.play()
     elif not should_roll and wheel_player.playing:
