@@ -174,7 +174,7 @@ func _build_levels() -> void:
 
 func _build_options() -> void:
     _title("OPTIONS", 30)
-    _subtitle("Audio settings are saved, ready for the composer's tracks.")
+    _subtitle("Music volume is saved automatically.")
     _volume_row("MASTER VOLUME", "master_volume", GameState.master_volume)
     _volume_row("MUSIC", "music_volume", GameState.music_volume)
     _volume_row("SOUND EFFECTS", "sfx_volume", GameState.sfx_volume)
