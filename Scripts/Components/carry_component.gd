@@ -129,6 +129,7 @@ func _attempt_pickup() -> void:
     carried_body.collision_mask = 0
 
     carried_body.global_position = carry_point.global_position
+    SoundManager.play_manipulation()
 
     if debug_logging:
         print("Picked up: ", carried_body.name)
@@ -182,6 +183,7 @@ func _attempt_drop() -> void:
     carried_body.collision_mask = original_collision_mask
     carried_body.freeze = false
     carried_body.sleeping = false
+    SoundManager.play_manipulation()
 
     if debug_logging:
         print("Dropped: ", carried_body.name)

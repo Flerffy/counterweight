@@ -58,8 +58,11 @@ func _ready() -> void:
 ## Opens or closes the door.
 ## Called by puzzle mechanisms when their activation state changes.
 func set_open(open: bool) -> void:
+    if is_open == open:
+        return
     is_open = open
     _update_door()
+    SoundManager.play_door(open)
 
 
 # -----------------------------------------------------------------------------

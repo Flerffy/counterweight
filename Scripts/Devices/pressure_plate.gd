@@ -126,6 +126,9 @@ func _recalculate_weight() -> void:
 
     is_active = should_activate
 
+    if is_active:
+        SoundManager.play_button_press()
+
     _update_visual()
     activation_changed.emit(is_active)
 
